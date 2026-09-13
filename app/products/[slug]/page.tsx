@@ -4,6 +4,9 @@ import { getSupabaseAnonServerClient } from "@/lib/supabase/server";
 import { verifiedOrFallback } from "@/lib/verification";
 import type { PublicProduct } from "@/types/domain";
 
+// See app/page.tsx for rationale.
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: { slug: string };
 }
