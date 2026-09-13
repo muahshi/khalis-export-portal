@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: "Browse Khalis Perfumes' export-ready fragrance catalogue for B2B buyers.",
 };
 
+// See app/page.tsx for rationale.
+export const dynamic = "force-dynamic";
+
 export default async function ProductsPage() {
   const supabase = getSupabaseAnonServerClient();
   const { data: products } = await supabase.from("public_products").select("*");
