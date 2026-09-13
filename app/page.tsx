@@ -11,6 +11,11 @@ import { RfqCTASection } from "@/components/home/RfqCTASection";
 import { getSupabaseAnonServerClient } from "@/lib/supabase/server";
 import type { Certification, Collection, Market, PublicProduct } from "@/types/domain";
 
+// Reads live Supabase data (product/RFQ-relevant content changes independently of
+// deploys) — force dynamic rendering so this is SSR'd per-request, not baked into
+// the build output. Also avoids requiring Supabase credentials at build time.
+export const dynamic = "force-dynamic";
+
 // Server Component — reads only public-tier data via the anon client (RLS-enforced).
 export default async function HomePage() {
   const supabase = getSupabaseAnonServerClient();
