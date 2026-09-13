@@ -3,6 +3,9 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { getSupabaseAnonServerClient } from "@/lib/supabase/server";
 import type { Collection, PublicProduct } from "@/types/domain";
 
+// See app/page.tsx for rationale.
+export const dynamic = "force-dynamic";
+
 export default async function CollectionDetailPage({ params }: { params: { slug: string } }) {
   const supabase = getSupabaseAnonServerClient();
 
