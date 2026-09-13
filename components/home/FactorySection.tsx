@@ -1,12 +1,25 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export function FactorySection() {
   return (
-    <section className="border-b border-charcoal-700 px-6 py-20">
-      <div className="mx-auto max-w-4xl text-center">
+    <section className="relative isolate overflow-hidden border-b border-charcoal-700 px-6 py-24">
+      <Image
+        src="/images/factory-uaq.webp"
+        alt=""
+        fill
+        loading="lazy"
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/75 to-charcoal-900/50"
+      />
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
         <h2 className="font-display text-2xl uppercase tracking-wide">Our Factory</h2>
-        <p className="mt-4 text-stone-400">
+        <p className="mt-4 text-stone-200">
           Manufacturing operations based in {siteConfig.factory.location}.
         </p>
         <Link href="/factory" className="mt-6 inline-block text-sm uppercase tracking-wide text-gold">

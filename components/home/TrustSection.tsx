@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 
 /**
@@ -6,8 +7,17 @@ import { siteConfig } from "@/config/site";
  */
 export function TrustSection() {
   return (
-    <section className="border-b border-charcoal-700 px-6 py-20">
-      <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-3">
+    <section className="relative isolate overflow-hidden border-b border-charcoal-700 px-6 py-20">
+      <Image
+        src="/images/brand-accent.webp"
+        alt=""
+        fill
+        loading="lazy"
+        sizes="100vw"
+        className="object-cover object-right opacity-25"
+      />
+      <div aria-hidden="true" className="absolute inset-0 bg-charcoal-900/70" />
+      <div className="relative z-10 mx-auto grid max-w-5xl gap-10 md:grid-cols-3">
         <div>
           <p className="text-xs uppercase tracking-wide text-gold">Manufacturer</p>
           <p className="mt-2 text-stone-200">
