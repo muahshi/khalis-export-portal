@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
  */
 export function TrustSection() {
   return (
-    <section className="relative isolate overflow-hidden border-b border-charcoal-700 px-6 py-20">
+    <section className="relative isolate hidden overflow-hidden border-b border-charcoal-700 px-6 py-20 md:block">
       <Image
         src="/images/brand-accent.webp"
         alt=""
