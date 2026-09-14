@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Market } from "@/types/domain";
 
 /**
@@ -6,19 +7,28 @@ import type { Market } from "@/types/domain";
  */
 export function GlobalMarketsSection({ markets }: { markets: Market[] }) {
   return (
-    <section className="border-b border-charcoal-700 px-6 py-20">
-      <div className="mx-auto max-w-5xl">
+    <section className="relative isolate overflow-hidden border-b border-charcoal-700 px-6 py-20">
+      <Image
+        src="/images/map-skyline.webp"
+        alt=""
+        fill
+        loading="lazy"
+        sizes="100vw"
+        className="object-cover object-center opacity-40"
+      />
+      <div aria-hidden="true" className="absolute inset-0 bg-charcoal-900/70" />
+      <div className="relative z-10 mx-auto max-w-5xl">
         <h2 className="font-display text-2xl uppercase tracking-wide">Global Export Markets</h2>
         {markets.length > 0 ? (
           <ul className="mt-8 flex flex-wrap gap-3">
             {markets.map((m) => (
-              <li key={m.id} className="border border-charcoal-700 px-4 py-2 text-sm text-stone-200">
+              <li key={m.id} className="border border-stone-200/20 bg-charcoal-900/40 px-4 py-2 text-sm text-stone-200 backdrop-blur-sm">
                 {m.country_name}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="mt-4 text-sm text-stone-400">Active export markets — pending verification.</p>
+          <p className="mt-4 text-sm text-stone-300">Active export markets — pending verification.</p>
         )}
       </div>
     </section>
