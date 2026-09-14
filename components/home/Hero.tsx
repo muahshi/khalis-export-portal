@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import { images } from "@/config/images";
 
 // Trust-strip icons: small inline SVGs (no icon library dependency) matching
 // the site's gold/line-art visual language.
@@ -56,12 +57,12 @@ export function Hero() {
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-cover bg-top md:hidden"
-        style={{ backgroundImage: "url(/images/hero-mobile.webp)" }}
+        style={{ backgroundImage: `url(${images.hero.mobile})` }}
       />
       <div
         aria-hidden="true"
         className="absolute inset-0 hidden bg-cover bg-center md:block"
-        style={{ backgroundImage: "url(/images/hero-bg.webp)" }}
+        style={{ backgroundImage: `url(${images.hero.desktop})` }}
       />
 
       {/* Legibility scrims over the photo — decorative, not content */}
@@ -82,7 +83,7 @@ export function Hero() {
         <p className="text-xs uppercase tracking-widest2 text-gold">
           Direct from UAE Manufacturer
         </p>
-        <h1 className="mt-6 font-display text-4xl leading-[1.1] sm:text-5xl md:mx-auto md:text-6xl">
+        <h1 className="hero-heading mt-6 font-display md:mx-auto">
           Luxury Fragrance Manufacturing &amp;{" "}
           <span className="text-gold">Global B2B Export</span>
         </h1>
@@ -111,8 +112,8 @@ export function Hero() {
               <div className="flex items-center gap-1.5 text-gold">
                 <Icon />
               </div>
-              <p className="mt-2 text-[10px] uppercase tracking-wide text-gold">{label}</p>
-              <p className="mt-1 text-[11px] leading-snug text-stone-300">{copy}</p>
+              <p className="mt-2 text-xs uppercase tracking-wide text-gold">{label}</p>
+              <p className="mt-1 text-xs leading-snug text-stone-300">{copy}</p>
             </div>
           ))}
         </div>
