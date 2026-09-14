@@ -1,12 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { primaryNav } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Body scroll lock + ESC-to-close while the mobile drawer is open.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-charcoal-700 bg-charcoal-900/95 backdrop-blur">
@@ -56,10 +74,22 @@ export function Header() {
         </button>
       </div>
 
+      {/* Backdrop — click to close, sits below the drawer/header but above page content */}
+      {isOpen && (
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 top-[73px] z-30 bg-charcoal-900/60 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Mobile nav drawer */}
       <div
         id="mobile-nav-drawer"
-        className={`overflow-hidden border-t border-charcoal-700 bg-charcoal-900 transition-[max-height] duration-300 ease-in-out lg:hidden ${
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation"
+        className={`relative z-40 overflow-hidden border-t border-charcoal-700 bg-charcoal-900 transition-[max-height] duration-300 ease-in-out lg:hidden ${
           isOpen ? "max-h-[32rem]" : "max-h-0"
         }`}
       >
