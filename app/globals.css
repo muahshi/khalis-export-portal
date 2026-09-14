@@ -10,3 +10,23 @@
 body {
   @apply bg-charcoal-900 text-stone-50 font-body;
 }
+
+/* Responsive type scale (brief: never hardcode a single hero/heading size —
+   use clamp so it scales smoothly between mobile and large desktop). */
+.hero-heading {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 1.08;
+}
+.section-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
