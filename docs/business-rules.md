@@ -12,9 +12,9 @@
 
 | Tier | Examples | Exposure |
 |---|---|---|
-| **Public** | name, SKU, brand, category, images, description, fragrance notes, size, general manufacturing capability, public certifications, public factory info, public contact info | Public website, anonymous Supabase role |
-| **Buyer/RFQ** | MOQ, carton configuration, packaging spec, estimated loading info, export documentation availability, commercial quote info when intentionally exposed | Shown during/after RFQ flow, not in anonymous product API |
-| **Confidential** | FOB price, factory cost, gross margin, minimum internal selling price, current inventory, customer-specific pricing, internal discounts, supplier costs, internal production status, sales notes, negotiation history | Server-side only, protected by RLS + role checks, never in a public response |
+| **Public** | name, SKU, barcode, brand, category, images, description, fragrance notes (top/middle/base), inspiration, size/pack unit, catalogue-sourced carton specs (pieces/carton, CBM, carton weight — see docs/adr/0005), general manufacturing capability, public certifications, public factory info, public contact info | Public website, anonymous Supabase role |
+| **Buyer/RFQ** | MOQ, packaging spec (private-label availability), estimated loading info, export documentation availability, commercial quote info when intentionally exposed | Shown during/after RFQ flow, not in anonymous product API |
+| **Confidential** | FOB price, catalogue unit price (USD/AED — `catalogue_unit_prices`), factory cost, gross margin, minimum internal selling price, current inventory, customer-specific pricing, internal discounts, supplier costs, internal production status, sales notes, negotiation history | Server-side only, protected by RLS + role checks (MANAGER/ADMIN), never in a public response |
 
 ## "Never invent" rule
 

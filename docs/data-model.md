@@ -5,16 +5,25 @@ Full DDL lives in `supabase/migrations/0001_init.sql`. This is the entity map an
 ## Entity groups
 
 **Catalogue** — `brands`, `categories`, `collections`, `products`, `product_images`,
-`product_variants`. Retail collections from the current public site (New Arrivals, Best
-Sellers, Niche, Luxury, Eternal, Sharqiyat, Khalis, Concentrated Perfume Oil, Ma'al Attar,
-Concentrated Perfume Spray) are seeded as `collections` rows, not hardcoded — the B2B
-taxonomy (`categories`) is a separate, independently-evolving table linked via
-`product_categories`.
+`product_variants`. `collections` are seeded from the official export catalogue PDF's own 18
+section headings (e.g. "LUXURY COLLECTIONS", "ARABIC ORIENTAL COLLECTIONS" — `source =
+'official_export_catalogue_pdf'`, via `scripts/catalogue-import/`), superseding the
+anticipated retail taxonomy Phase 1 had sketched before real catalogue data existed (docs/
+adr/0005). The B2B taxonomy (`categories`) remains a separate, independently-evolving table
+linked via `product_categories` — not populated in Phase 3.
 
 **Commercial / logistics (mostly nullable, verification-gated)** — `packaging_specs`,
 `carton_specs`, `logistics_specs`. Every numeric field is nullable; each spec row carries a
-`verification_status` (`PENDING_VERIFICATION` / `VERIFIED`). No default or computed fallback
-value is ever substituted for a null.
+`verification_status` (`PENDING_VERIFICATION` / `VERIFIED` / `VERIFIED_FROM_CATALOGUE` —
+added Phase 3, docs/adr/0005). No default or computed fallback value is ever substituted for
+a null. `carton_specs` rows with `VERIFIED_FROM_CATALOGUE` are public-readable (the same
+figures are printed in the publicly-downloadable catalogue PDF); `packaging_specs` and
+`logistics_specs` stay fully gated — the catalogue doesn't provide MOQ/container/private-label
+data, so nothing there is reclassified.
+
+**Catalogue pricing (Phase 3, confidential)** — `catalogue_unit_prices`: the official
+catalogue's USD/AED unit price per product, one row per product, no `anon` access at all —
+MANAGER/ADMIN-readable only. See `docs/adr/0005-catalogue-data-model.md`.
 
 **Trust** — `documents`, `certifications`, `markets`. Certifications have their own
 `verification_status` so an unverified certificate can exist in the DB (e.g., "in progress")

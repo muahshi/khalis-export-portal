@@ -15,9 +15,17 @@
   `select` policy to `anon`/`authenticated` restricted to public-tier columns via a view
   (`public_products`) rather than the raw table, so confidential columns are never in the
   anon-reachable shape even if a policy is misconfigured later.
-- `packaging_specs`, `carton_specs`, `logistics_specs`: no `anon` select policy at all.
-  Buyer-tier fields are surfaced to the client only through a server-side query using the
-  service role inside an RFQ/quotation context, never a direct client query.
+- `packaging_specs`, `logistics_specs`: no `anon` select policy at all. Buyer-tier fields
+  are surfaced to the client only through a server-side query using the service role inside
+  an RFQ/quotation context, never a direct client query.
+- `carton_specs`: no `anon` select policy for staff-entered/negotiated rows — same as
+  `packaging_specs`/`logistics_specs`. As of Phase 3 (docs/adr/0005), rows with
+  `verification_status = 'VERIFIED_FROM_CATALOGUE'` — i.e. pieces/carton, CBM, and carton
+  weight taken directly from the published catalogue PDF — DO have a public `select` policy,
+  since that exact data is already in the publicly-downloadable catalogue (brief §14).
+- `catalogue_unit_prices` (Phase 3): no `anon` select policy at all. Readable only by
+  `MANAGER`/`ADMIN` staff — same pattern as the `users` table's manager/admin policy. This is
+  the catalogue's USD/AED unit price column; it is CONFIDENTIAL tier, not Buyer/RFQ tier.
 - `rfqs`, `rfq_items`, `lead_scores`, `quotes`, `companies`, `contacts`,
   `whatsapp_conversations`, `ai_messages`, `audit_logs`: no `anon` access at all. Insert on
   `rfqs`/`rfq_items` happens only through the Route Handler using the service role, after
