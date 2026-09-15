@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import type { BusinessType, RfqSubmission } from "@/types/domain";
+import type { BusinessType, PublicProduct, RfqSubmission } from "@/types/domain";
 
 const BUSINESS_TYPES: BusinessType[] = [
   "DISTRIBUTOR",
@@ -17,7 +17,7 @@ const BUSINESS_TYPES: BusinessType[] = [
  * the service-role client server-side; this component never talks to Supabase
  * directly, so no client-writable path to the rfqs table exists.
  */
-export function RFQForm() {
+export function RFQForm({ requestedProduct }: { requestedProduct?: PublicProduct | null }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -33,7 +33,7 @@ export function RFQForm() {
       email: String(formData.get("email") ?? ""),
       whatsapp: String(formData.get("whatsapp") ?? "") || undefined,
       message: String(formData.get("message") ?? "") || undefined,
-      products: [], // Phase 2: populate from a product picker / pre-filled "Add to RFQ"
+      products: requestedProduct ? [{ product_id: requestedProduct.id }] : [],
     };
 
     try {
@@ -58,6 +58,12 @@ export function RFQForm() {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-6 sm:grid-cols-2">
+      {requestedProduct && (
+        <div className="sm:col-span-2 border border-charcoal-700 bg-charcoal-900 px-4 py-3 text-sm">
+          <p className="text-xs uppercase tracking-wide text-stone-500">Requesting a quote for</p>
+          <p className="mt-1 text-stone-100">{requestedProduct.name}</p>
+        </div>
+      )}
       <Field label="Full Name" name="full_name" required />
       <Field label="Company Name" name="company_name" required />
       <Field label="Country" name="country" required />
