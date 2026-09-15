@@ -15,7 +15,7 @@ export const siteConfig = {
   },
   cta: {
     primary: { label: "Request an RFQ", href: "/rfq" },
-    secondary: { label: "Download Export Catalog", href: "/export-catalog.pdf" },
+    secondary: { label: "Download Export Catalog", href: "/khalis-export-catalogue.pdf" },
     whatsapp: { label: "WhatsApp Export Team" }, // wired to services/whatsapp in Phase 2
   },
 } as const;
