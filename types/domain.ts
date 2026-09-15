@@ -1,7 +1,9 @@
 // Domain types aligned with supabase/migrations/0001_init.sql.
 // Keep in sync manually until `supabase gen types typescript` is wired into CI.
 
-export type VerificationStatus = "PENDING_VERIFICATION" | "VERIFIED";
+export type VerificationStatus = "PENDING_VERIFICATION" | "VERIFIED" | "VERIFIED_FROM_CATALOGUE";
+export type PackUnit = "ML" | "GRAM";
+export type ImageStatus = "PENDING" | "AVAILABLE";
 export type ProductStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 export type BusinessType =
   | "DISTRIBUTOR"
@@ -54,6 +56,16 @@ export interface PublicProduct {
   volume_ml: number | null;
   status: ProductStatus;
   brand_name: string | null;
+  // Catalogue-derived (docs/adr/0005) — all PUBLIC-tier, all nullable since
+  // not every product carries every field.
+  barcode: string | null;
+  inspiration: string | null;
+  top_notes: string | null;
+  middle_notes: string | null;
+  base_notes: string | null;
+  pack_size: number | null;
+  pack_unit: PackUnit | null;
+  image_status: ImageStatus;
 }
 
 /** Full product row — server-side only; never send raw to an anonymous client. */
@@ -69,6 +81,25 @@ export interface Product extends Timestamped {
   status: ProductStatus;
   logistics_status: VerificationStatus;
   commercial_status: VerificationStatus;
+  barcode: string | null;
+  inspiration: string | null;
+  top_notes: string | null;
+  middle_notes: string | null;
+  base_notes: string | null;
+  pack_size: number | null;
+  pack_unit: PackUnit | null;
+  image_status: ImageStatus;
+  catalogue_status: VerificationStatus;
+}
+
+/** CONFIDENTIAL tier — server-only, MANAGER/ADMIN-readable, never sent to an anonymous client. */
+export interface CatalogueUnitPrice extends Timestamped {
+  id: string;
+  product_id: string;
+  price_usd: number | null;
+  price_aed: number | null;
+  source_page: number | null;
+  verification_status: VerificationStatus;
 }
 
 export interface ProductImage {
